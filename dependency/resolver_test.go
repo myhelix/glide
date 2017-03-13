@@ -21,10 +21,10 @@ func TestResolveLocalShallow(t *testing.T) {
 	}
 
 	expect := []string{
-		"github.com/Masterminds/semver",
-		"github.com/Masterminds/vcs",
-		"gopkg.in/yaml.v2",
-		"github.com/codegangsta/cli",
+		filepath.FromSlash("github.com/Masterminds/semver"),
+		filepath.FromSlash("github.com/Masterminds/vcs"),
+		filepath.FromSlash("gopkg.in/yaml.v2"),
+		filepath.FromSlash("github.com/codegangsta/cli"),
 	}
 
 	for _, p := range expect {
@@ -46,6 +46,8 @@ func TestResolveLocalDeep(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	h := &DefaultMissingPackageHandler{Missing: []string{}, Gopath: []string{}, Prefix: "../vendor"}
+	r.Handler = h
 
 	l, _, err := r.ResolveLocal(true)
 	if err != nil {
@@ -62,6 +64,8 @@ func TestResolve(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	h := &DefaultMissingPackageHandler{Missing: []string{}, Gopath: []string{}, Prefix: "../vendor"}
+	r.Handler = h
 
 	base := filepath.Join(os.Getenv("GOPATH"), "src/github.com/Masterminds/glide/vendor")
 	l, err := r.Resolve("github.com/codegangsta/cli", base)
@@ -73,7 +77,7 @@ func TestResolve(t *testing.T) {
 		t.Errorf("Expected 1 dep, got %d: %s", len(l), l[0])
 	}
 
-	if !strings.HasSuffix("github.com/codegangsta/cli", l[0]) {
+	if !strings.HasSuffix(filepath.FromSlash("github.com/codegangsta/cli"), l[0]) {
 		t.Errorf("Unexpected package name: %s", l[0])
 	}
 }
@@ -91,6 +95,8 @@ func TestResolveAll(t *testing.T) {
 	if err != nil {
 		t.Fatalf("No new resolver: %s", err)
 	}
+	h := &DefaultMissingPackageHandler{Missing: []string{}, Gopath: []string{}, Prefix: "../vendor"}
+	r.Handler = h
 	l, err := r.ResolveAll(deps, false)
 	if err != nil {
 		t.Fatalf("Failed to resolve: %s", err)

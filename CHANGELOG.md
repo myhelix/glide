@@ -1,6 +1,38 @@
-# Unreleased
+# Release 0.13.0 (unreleased)
+
+## Changed
+- #697: Preserve vendor/.git, if it exists.
+
+## Fixed
+- #736: Find home dir without using cgo (thanks @krancour)
+
+# Release 0.12.3 (2016-10-03)
+
+## Fixed
+- #615: Fixed possible situation where resolver could get stuck in a loop
+
+# Release 0.12.2 (2016-09-13)
+
+## Fixed
+- #599: In some cases was not importing dependencies config
+- #601: Fixed issue where --all-dependencies flag stopped working
+
+# Release 0.12.1 (2016-08-31)
+
+## Fixed
+- #578: Not resolving parent project packages in some cases
+- #580: cross-device error handling failed on Windows in some cases
+- #590: When exit signal received remove global lock
+
+Note, Plan 9 is an experimental OS for Go. Due to some issues we are not going
+to be supporting builds for it at this time.
+
+# Release 0.12.0 (2016-08-23)
 
 ## Added
+- Support for distributions in FreeBSD, OpenBSD, NetBSD, and Plan9
+- #528: ARM release support (thanks @franciscocpg)
+- #563: Added initial integration testing
 - #533: Log VCS output with debug (`--debug` switch) when there was a VCS error (thanks @atombender)
 - #39: Added support for mirrors. See the mirror command and subcommands
 
@@ -15,6 +47,8 @@
   others are deprecated and no longer needed.
 
 ## Fixed
+- #287: When file or directory not found provide useful message
+- #559: Fixed error is nil issue (thanks @mfycheng)
 - #553: Export was failing with different physical devices
 - #542: Glide failed to detect some test dependencies (thanks @sdboyer)
 - #517: Fixed failure to install testImport from lock when no imports present
